@@ -689,16 +689,13 @@ public class BlockSpawner : MonoBehaviour
     [Header("Colors")]
     public Color[] colorPalette = new Color[]
     {
-        new Color(1f, 0.18f, 0.18f),   // Red
-        new Color(1f, 0.6f, 0f),       // Orange
-        new Color(1f, 0.9f, 0.1f),     // Yellow
-        new Color(0.3f, 0.85f, 0.3f),  // Green
-        new Color(0f, 0.8f, 0.8f),     // Cyan
-        new Color(0.2f, 0.4f, 1f),     // Blue
-        new Color(0.6f, 0.2f, 1f),     // Purple
-        new Color(1f, 0.2f, 0.6f),     // Pink
-        new Color(0.7f, 1f, 0.2f),     // Lime
-        new Color(0f, 0.7f, 0.5f),     // Teal
+        new Color(0.99f, 0.19f, 0.11f), // Red
+        new Color(1f, 0.56f, 0f),       // Orange
+        new Color(1f, 0.75f, 0f),       // Yellow
+        new Color(0.44f, 0.78f, 0.19f), // Green
+        new Color(0.24f, 0.71f, 0.82f), // Cyan
+        new Color(0.14f, 0.25f, 0.56f), // Blue
+        new Color(0.6f, 0.2f, 0.8f),    // Purple
     };
 
     private List<GameObject> activePieces = new List<GameObject>();
@@ -1509,7 +1506,7 @@ BlockPiece SetupPiece receives `cellSize: 0.456f, gap: 0.02f` — must match Gri
 | Slots at Y = -2.8 | Slot Transforms | Spawn position |
 | Zone threshold: 0.3 | BlockDragHandler | Bottom 30% of screen |
 | Zone width: Screen.width / 3 | BlockDragHandler | 3 equal zones |
-| 10 colors in colorPalette | BlockSpawner Inspector | Random piece colors |
+| 7 colors in colorPalette | BlockSpawner Inspector | Random piece colors |
 | Board scale: (1,1,1) | Board Transform | No scaling |
 
 ---
