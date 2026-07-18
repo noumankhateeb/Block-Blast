@@ -1,0 +1,298 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9c0129ec331bf304c92ad8147eaa1f30, type: 3}
+  m_Name: GameShapes
+  m_EditorClassIdentifier: Assembly-CSharp::BlockShape
+  shapes:
+  - shapeName: Single
+    cellOffsets:
+    - {x: 0, y: 0}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 2_Horizontal
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 2_Vertical
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 2_Diagonal_DownRight
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 1}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 2_Diagonal_UpRight
+    cellOffsets:
+    - {x: 0, y: 1}
+    - {x: 1, y: 0}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 3_Horizontal
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 3_Vertical
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 0, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 3L_UpLeft
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 3L_UpRight
+    cellOffsets:
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 3L_DownLeft
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 3L_DownRight
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 3_Diagonal_DownRight
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 1}
+    - {x: 2, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 3_Diagonal_UpRight
+    cellOffsets:
+    - {x: 0, y: 2}
+    - {x: 1, y: 1}
+    - {x: 2, y: 0}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 2x2_Square
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4_Horizontal
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4_Vertical
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 0, y: 2}
+    - {x: 0, y: 3}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4L_UpLeft
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 0, y: 2}
+    - {x: 1, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4L_UpRight
+    cellOffsets:
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 0, y: 2}
+    - {x: 1, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4L_DownLeft
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 0, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4L_DownRight
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 1, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4T_Up
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 1, y: 1}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4T_Down
+    cellOffsets:
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4T_Left
+    cellOffsets:
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    - {x: 1, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4T_Right
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    - {x: 0, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4S_Horizontal
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4S_Vertical
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    - {x: 1, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4S_ReverseHorizontal
+    cellOffsets:
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4S_ReverseVertical
+    cellOffsets:
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    - {x: 0, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4Z_Horizontal
+    cellOffsets:
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4Z_Vertical
+    cellOffsets:
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    - {x: 0, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4Z_ReverseHorizontal
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 4Z_ReverseVertical
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    - {x: 1, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 5_Horizontal
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 3, y: 0}
+    - {x: 4, y: 0}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 5_Vertical
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 0, y: 2}
+    - {x: 0, y: 3}
+    - {x: 0, y: 4}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 5L_UpLeft
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 0, y: 1}
+    - {x: 0, y: 2}
+    - {x: 1, y: 2}
+    - {x: 2, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 5L_UpRight
+    cellOffsets:
+    - {x: 2, y: 0}
+    - {x: 2, y: 1}
+    - {x: 0, y: 2}
+    - {x: 1, y: 2}
+    - {x: 2, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 5L_DownLeft
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 0, y: 1}
+    - {x: 0, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 5L_DownRight
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 2, y: 1}
+    - {x: 2, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 2x3_Rectangle
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    - {x: 0, y: 2}
+    - {x: 1, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 3x2_Rectangle
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}
+  - shapeName: 3x3_Square
+    cellOffsets:
+    - {x: 0, y: 0}
+    - {x: 1, y: 0}
+    - {x: 2, y: 0}
+    - {x: 0, y: 1}
+    - {x: 1, y: 1}
+    - {x: 2, y: 1}
+    - {x: 0, y: 2}
+    - {x: 1, y: 2}
+    - {x: 2, y: 2}
+    preferredColor: {r: 1, g: 1, b: 1, a: 1}

@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <Style src="../BlockBlastTheme.uss" />
+    <ui:VisualElement class="overlay">
+        <ui:VisualElement class="panel">
+            <ui:Label class="title" text="BLOCK" style="margin-bottom: -8px;" />
+            <ui:Label class="title title-gold" text="BLAST" style="margin-bottom: 24px;" />
+            <ui:Label class="score-label" text="HIGH SCORE" style="margin-bottom: 2px;" />
+            <ui:Label class="score-display" name="highScoreValue" text="0" style="font-size: 32px; margin-bottom: 20px;" />
+            <ui:Button class="button button-primary" name="playButton" text="PLAY" />
+            <ui:Button class="button button-secondary" name="settingsButton" text="SETTINGS" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

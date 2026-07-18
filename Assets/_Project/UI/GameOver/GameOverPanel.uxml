@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <Style src="../BlockBlastTheme.uss" />
+    <ui:VisualElement class="overlay">
+        <ui:VisualElement class="panel">
+            <ui:Label class="score-label" text="GAME OVER" style="font-size: 20px; color: #F44336; margin-bottom: 8px;" />
+            <ui:Label class="score-label" name="newBestBadge" text="NEW BEST!" style="color: #FF9800; font-size: 14px; opacity: 0; margin-bottom: 12px;" />
+            <ui:Label class="score-display" name="finalScoreValue" text="0" style="font-size: 44px; margin-bottom: 4px;" />
+            <ui:Label class="score-label" text="BEST" style="margin-bottom: 2px;" />
+            <ui:Label class="score-display" name="bestValue" text="0" style="font-size: 22px; margin-bottom: 20px;" />
+            <ui:Button class="button button-primary" name="restartButton" text="PLAY AGAIN" />
+            <ui:Button class="button button-secondary" name="menuButton" text="MENU" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
