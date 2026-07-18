@@ -25,23 +25,6 @@ public class GridManager : MonoBehaviour
         }
     }
 
-    public void ResetGrid()
-    {
-        grid = new bool[cols, rows];
-
-        if (gridSystem != null)
-        {
-            List<Transform> toDestroy = new List<Transform>();
-            foreach (Transform child in gridSystem.transform)
-            {
-                if (child.GetComponent<BlockPiece>() != null)
-                    toDestroy.Add(child);
-            }
-            foreach (Transform t in toDestroy)
-                Destroy(t.gameObject);
-        }
-    }
-
     public bool IsInBounds(int x, int y)
     {
         return x >= 0 && x < cols && y >= 0 && y < rows;
@@ -89,9 +72,7 @@ public class GridManager : MonoBehaviour
             int x = originX + offset.x;
             int y = originY + offset.y;
             if (IsInBounds(x, y))
-            {
                 grid[x, y] = true;
-            }
         }
     }
 
@@ -134,8 +115,7 @@ public class GridManager : MonoBehaviour
         int totalCells = toClear.Count;
         int totalLines = fullRows.Count + fullCols.Count;
 
-                ScoreManager.Instance?.AddLineClearScore(totalLines, totalCells);
-return totalLines;
+        return totalLines;
     }
 
     private void DestroyVisualCellsAt(HashSet<Vector2Int> positions)
@@ -171,7 +151,8 @@ return totalLines;
             Destroy(piece.gameObject);
     }
 
-    public Vector3 GetSnappedWorldPosition(Vector2Int[] offsets, Vector3 worldCenter, out int originX, out int originY)
+    public Vector3 GetSnappedWorldPosition(Vector2Int[] offsets, Vector3 worldCenter,
+        out int originX, out int originY)
     {
         originX = 0;
         originY = 0;

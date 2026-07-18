@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class GridSystem : MonoBehaviour
 {
@@ -15,7 +14,6 @@ public class GridSystem : MonoBehaviour
     private ThemeManager themeManager;
     public BlockSpawner blockSpawner;
 
-    // Exposed grid calculation data (set during GenerateGrid)
     public float CellSize { get; private set; }
     public float Step { get; private set; }
     public float GridStartX { get; private set; }
@@ -23,7 +21,6 @@ public class GridSystem : MonoBehaviour
 
     private void Start()
     {
-        Application.targetFrameRate = 60;
         themeManager = ThemeManager.Instance;
         GenerateGrid();
 
@@ -35,13 +32,9 @@ public class GridSystem : MonoBehaviour
 
     public void GenerateGrid()
     {
-        // 1. Clear existing cells
         foreach (Transform child in transform)
-        {
-            if (child != transform) Destroy(child.gameObject);
-        }
+            Destroy(child.gameObject);
 
-        // 2. READ THE EXACT SIZE OF YOUR GRIDCELL PREFAB
         GameObject tempCell = Instantiate(cellPrefab);
         SpriteRenderer prefabRenderer = tempCell.GetComponent<SpriteRenderer>();
         CellSize = prefabRenderer.bounds.size.x;
@@ -49,15 +42,12 @@ public class GridSystem : MonoBehaviour
 
         Step = CellSize + gapBetweenCells;
 
-        // 3. Calculate total grid size
         float totalWidth = (columns * Step) - gapBetweenCells;
         float totalHeight = (rows * Step) - gapBetweenCells;
 
-        // 4. Calculate start positions to center the grid
         GridStartX = -(totalWidth / 2f) + (CellSize / 2f);
         GridStartY = (totalHeight / 2f) - (CellSize / 2f);
 
-        // 5. Spawn the 64 Placeholders
         for (int r = 0; r < rows; r++)
         {
             for (int c = 0; c < columns; c++)
@@ -66,10 +56,10 @@ public class GridSystem : MonoBehaviour
                 float posY = GridStartY - (r * Step);
                 Vector3 spawnPosition = new Vector3(posX, posY, 0f);
 
-                GameObject newCell = Instantiate(cellPrefab, spawnPosition, Quaternion.identity, transform);
+                GameObject newCell = Instantiate(cellPrefab, spawnPosition,
+                    Quaternion.identity, transform);
                 newCell.name = $"Cell_{r}_{c}";
 
-                // ASSIGN THE SPRITE FROM THE THEME MANAGER
                 SpriteRenderer renderer = newCell.GetComponent<SpriteRenderer>();
                 if (renderer != null)
                 {

@@ -41,22 +41,19 @@ public class BlockSpawner : MonoBehaviour
     {
         activePieces.Remove(piece);
 
-        ScoreManager.Instance?.AddScore(10);
-        GridManager.Instance?.CheckAndClearLines();
+        GridManager.Instance.CheckAndClearLines();
+
+        if (activePieces.Count > 0 && !AnyPieceCanBePlaced())
+        {
+            GameOver();
+            return;
+        }
 
         if (activePieces.Count == 0)
         {
             SpawnNewSet();
-
-            if (activePieces.Count == 0 || !AnyPieceCanBePlaced())
-            {
+            if (!AnyPieceCanBePlaced())
                 GameOver();
-                return;
-            }
-        }
-        else if (!AnyPieceCanBePlaced())
-        {
-            GameOver();
         }
     }
 
@@ -65,10 +62,8 @@ public class BlockSpawner : MonoBehaviour
         GridManager gm = GridManager.Instance;
         if (gm == null) return false;
 
-        for (int i = 0; i < activePieces.Count; i++)
+        foreach (GameObject piece in activePieces)
         {
-            GameObject piece = activePieces[i];
-            if (piece == null) continue;
             BlockPiece bp = piece.GetComponent<BlockPiece>();
             if (bp == null || bp.CurrentPattern.cellOffsets == null) continue;
             if (gm.CanPlaceAnywhere(bp.CurrentPattern.cellOffsets))
@@ -79,50 +74,51 @@ public class BlockSpawner : MonoBehaviour
 
     private void GameOver()
     {
-        ScoreManager.Instance?.OnGameOver();
-
-        for (int i = activePieces.Count - 1; i >= 0; i--)
+        foreach (GameObject piece in activePieces)
         {
-            GameObject piece = activePieces[i];
             if (piece == null) continue;
             BlockDragHandler handler = piece.GetComponent<BlockDragHandler>();
             if (handler != null) handler.enabled = false;
         }
         activePieces.Clear();
+
+        GameOverScreen.Show();
     }
 
     public void SpawnNewSet()
     {
-        for (int i = activePieces.Count - 1; i >= 0; i--)
-        {
-            if (activePieces[i] != null) Destroy(activePieces[i]);
-        }
         activePieces.Clear();
 
         if (shapeData == null || shapeData.shapes == null || shapeData.shapes.Length == 0) return;
-        if (spawnSlots == null || spawnSlots.Length == 0) return;
-
-        GridManager gm = GridManager.Instance;
 
         List<ShapePattern> validShapes = new List<ShapePattern>();
+        GridManager gm = GridManager.Instance;
         if (gm != null)
         {
             foreach (ShapePattern shape in shapeData.shapes)
             {
                 if (shape.cellOffsets != null && gm.CanPlaceAnywhere(shape.cellOffsets))
+                {
                     validShapes.Add(shape);
+                }
             }
         }
 
+        int guaranteedIndex = Random.Range(0, spawnSlots.Length);
+
         for (int i = 0; i < spawnSlots.Length; i++)
         {
-            if (spawnSlots[i] == null) continue;
-
             ShapePattern selectedShape;
-            if (validShapes.Count > 0)
+
+            if (i == guaranteedIndex && validShapes.Count > 0)
+            {
                 selectedShape = validShapes[Random.Range(0, validShapes.Count)];
+            }
             else
-                selectedShape = shapeData.shapes[Random.Range(0, shapeData.shapes.Length)];
+            {
+                int randomIndex = Random.Range(0, shapeData.shapes.Length);
+                selectedShape = shapeData.shapes[randomIndex];
+            }
 
             GameObject pieceGo = Instantiate(blockPiecePrefab, spawnSlots[i]);
             pieceGo.transform.localPosition = Vector3.zero;
@@ -134,11 +130,13 @@ public class BlockSpawner : MonoBehaviour
                 piece.SetupPiece(selectedShape, 0.456f, 0.02f);
 
                 Color randomColor = colorPalette[Random.Range(0, colorPalette.Length)];
-                foreach (Transform child in pieceGo.transform)
+                foreach (Transform child in piece.transform)
                 {
                     SpriteRenderer renderer = child.GetComponent<SpriteRenderer>();
                     if (renderer != null)
+                    {
                         renderer.color = randomColor;
+                    }
                 }
             }
 

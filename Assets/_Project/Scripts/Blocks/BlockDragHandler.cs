@@ -38,7 +38,7 @@ public class BlockDragHandler : MonoBehaviour
     public float maxExtraLift = 0.6f;
 
     [Header("Ghost")]
-    public float ghostAlpha = 0.5f;
+    public float ghostAlpha = 0.6f;
 
     [Header("Hit Area")]
     public float hitPadding = 0.2f;
@@ -175,15 +175,13 @@ public class BlockDragHandler : MonoBehaviour
         if (!anyInBounds)
             isValidPlacement = false;
 
-        // Update ghost cell positions (localPosition avoids TransformPoint native call)
-        float gsx = gm.gridSystem.GridStartX;
-        float gsy = gm.gridSystem.GridStartY;
-        float step = gm.gridSystem.Step;
+        // Update ghost cell positions
         for (int i = 0; i < ghostCells.Count; i++)
         {
-            float posX = gsx + (hoverOriginX + shapeOffsets[i].x) * step;
-            float posY = gsy - (hoverOriginY + shapeOffsets[i].y) * step;
-            ghostCells[i].transform.localPosition = new Vector3(posX, posY, 0f);
+            Vector3 cellPos = gm.gridSystem.GetCellWorldPosition(
+                hoverOriginX + shapeOffsets[i].x,
+                hoverOriginY + shapeOffsets[i].y);
+            ghostCells[i].transform.position = cellPos;
         }
 
         // Only update colors when validity state changes

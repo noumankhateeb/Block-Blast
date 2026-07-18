@@ -16,4 +16,4 @@ MonoBehaviour:
   boardSprite: {fileID: 21300000, guid: 43e8239601b75ce418101ef4085d3206, type: 3}
   emptyCellSprite: {fileID: 21300000, guid: 246e6100aa1a00c47bd3486b6e683438, type: 3}
   blockSprites: []
-  cameraBackgroundColor: {r: 0, g: 0.8869717, b: 1, a: 1}
+  cameraBackgroundColor: {r: 0, g: 0.887, b: 1, a: 1}

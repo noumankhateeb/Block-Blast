@@ -57,7 +57,7 @@ Block Blast block-puzzle game. 8×8 grid, randomly colored block shapes, drag-an
 
 ### Key Technical Decisions
 - **Input:** Input Manager (Legacy) only — `Input.mousePosition`, `Input.GetMouseButtonDown/0/Up`, `Input.GetTouch()`, `Input.touchCount`. Input System package is installed but unused.
-- **EventSystem:** `InputSystemUIInputModule` remains on EventSystem (harmless, no runtime cleanup needed). StandaloneInputModule is NOT added — the GameOver restart button uses `SceneManager.LoadScene` triggered by `Button.onClick` which works with either input module. UI raycasting does not conflict with game input.
+- **EventSystem:** `StandaloneInputModule` on EventSystem (Legacy Input active). GameOverScreen also has a manual `Update()` click-detection fallback using `Input.GetMouseButtonUp(0)` + `RectTransformUtility` so restart works regardless of input module. UI raycasting does not conflict with game input.
 - **Grid State:** `GridManager` (singleton) owns `bool[,]` occupancy; `GridSystem` owns visual generation + grid math.
 - **Placement:** Uses `BlockPiece.PivotOffset` (stored during `SetupPiece`) to correctly align ANY shape to the grid origin — handles shapes without a cell at offset `(0,0)`.
 - **Ghost:** Cells spawn invisible (`Color.clear`), ghost color pre-computed once on creation. Position only updated when snapped grid cell changes (cached `lastHoverX/Y`). Colors only updated when validity state flips (cached `lastGhostValid`). No per-frame allocations.
@@ -197,7 +197,7 @@ Prefab scale: `(0.114, 0.114, 1)` → world size: `4 × 0.114 = 0.456 units`.
 - Scale: `(0.114, 0.114, 1)`, Sprite: Block_0, Sorting Order: 10
 
 ### 6.3 BlockPiece.prefab
-- Components: Transform, BlockPiece (BlockCell → BlockCell.prefab), BoxCollider2D (Is Trigger), BlockDragHandler (`spawnScale: 0.33`, `liftHeight: 0.8`, `maxExtraLift: 0.6`, `ghostAlpha: 0.6`)
+- Components: Transform, BlockPiece (BlockCell → BlockCell.prefab), BoxCollider2D (Is Trigger), BlockDragHandler (`spawnScale: 0.33`, `liftHeight: 0.8`, `maxExtraLift: 0.6`, `ghostAlpha: 0.4`)
 
 ---
 
@@ -205,7 +205,6 @@ Prefab scale: `(0.114, 0.114, 1)` → world size: `4 × 0.114 = 0.456 units`.
 
 ```
 Main Camera          (0, 0, -10) [Camera: Ortho, CameraFitter, URP Camera]
-Global Light 2D      (0, 0, 0)
 GameRoot             (0, 0, 0)   [ThemeManager, BlockSpawner]
 ├── Background       (0, 0, 10)  [EMPTY]
 ├── Board            (0, 0, 1)   [SpriteRenderer: Board.png]
@@ -359,7 +358,7 @@ public class BlockDragHandler : MonoBehaviour
     public float maxExtraLift = 0.6f;
 
     [Header("Ghost")]
-    public float ghostAlpha = 0.6f;
+    public float ghostAlpha = 0.4f;
 
     [Header("Hit Area")]
     public float hitPadding = 0.2f;
@@ -946,7 +945,7 @@ public class GridSystem : MonoBehaviour
 **Key:**
 - `cellColor` — applied to all grid cells (default dark gray-blue). Tweakable in Inspector.
 - Camera fitting removed — handled by `CameraFitter` on Main Camera instead.
-- InputModule hack removed — `InputSystemUIInputModule` stays on EventSystem (harmless), no runtime cleanup code.
+- InputModule hack removed — `StandaloneInputModule` on EventSystem (Legacy Input active), no runtime cleanup code.
 - **⚠️ Bug:** `UpdateTheme()` iterates `foreach (Transform child in transform)` — this includes placed `BlockPiece` containers (which are parented to `gridSystem.transform` in `PlaceOnGrid()`). It overwrites their sprites to `emptyCellSprite` and color to `cellColor`, corrupting placed blocks visually. Only grid placeholder cells (those WITHOUT `BlockPiece` component) should be affected. Currently low severity because no theme-switching UI exists at runtime.
 
 ---
@@ -1154,6 +1153,7 @@ public class GameOverScreen : MonoBehaviour
 {
     private static GameOverScreen instance;
     private GameObject panel;
+    private RectTransform restartButtonRect;
 
     void Awake()
     {
@@ -1166,6 +1166,20 @@ public class GameOverScreen : MonoBehaviour
     {
         if (instance == this)
             instance = null;
+    }
+
+    void Update()
+    {
+        if (panel == null || !panel.activeInHierarchy) return;
+
+        if (Input.GetMouseButtonUp(0) && restartButtonRect != null)
+        {
+            Vector2 localPoint;
+            RectTransformUtility.ScreenPointToLocalPointInRectangle(
+                restartButtonRect, Input.mousePosition, null, out localPoint);
+            if (restartButtonRect.rect.Contains(localPoint))
+                RestartGame();
+        }
     }
 
     void CreateUI()
@@ -1214,9 +1228,9 @@ public class GameOverScreen : MonoBehaviour
         Button btn = btnGO.AddComponent<Button>();
         btn.targetGraphic = btnImage;
         btn.onClick.AddListener(RestartGame);
-        RectTransform btnRect = btnGO.GetComponent<RectTransform>();
-        btnRect.sizeDelta = new Vector2(200, 55);
-        btnRect.anchoredPosition = new Vector2(0, -30);
+        restartButtonRect = btnGO.GetComponent<RectTransform>();
+        restartButtonRect.sizeDelta = new Vector2(200, 55);
+        restartButtonRect.anchoredPosition = new Vector2(0, -30);
 
         GameObject btnTextGO = new GameObject("ButtonText");
         btnTextGO.transform.SetParent(btnGO.transform, false);
@@ -1250,7 +1264,7 @@ public class GameOverScreen : MonoBehaviour
 }
 ```
 
-**Key:** Self-contained — creates its own Canvas, no scene setup required. `Show()` is static.
+**Key:** Self-contained — creates its own Canvas, no scene setup required. `Show()` is static. Includes `Update()` fallback using Legacy Input for restart click detection (works without EventSystem).
 
 ---
 
@@ -1487,7 +1501,7 @@ BlockPiece SetupPiece receives `cellSize: 0.456f, gap: 0.02f` — must match Gri
 | `spawnScale = 0.33` | BlockPiece prefab | Slot scale |
 | `liftHeight = 0.8` | BlockPiece prefab | Click lift |
 | `maxExtraLift = 0.6` | BlockPiece prefab | Ramped lift at grid top |
-| `ghostAlpha = 0.6` | BlockPiece prefab | Ghost opacity |
+| `ghostAlpha = 0.4` | BlockPiece prefab | Ghost opacity |
 | `hitPadding = 0.2` | BlockPiece prefab | Tap hit area expansion |
 | `gapBetweenCells = 0.02` | GridSystem Inspector | Grid gap |
 | `cellColor = (0.5, 0.5, 0.55)` | GridSystem Inspector | Grid cell tint |
@@ -1514,7 +1528,7 @@ BlockPiece SetupPiece receives `cellSize: 0.456f, gap: 0.02f` — must match Gri
 | 8 | `IsPointerOverPiece()` zone tap uses `Input.mousePosition.x` not `worldPos` | Zone detection reads `Input.mousePosition` directly instead of converting the touch/mouse position from the `worldPos` that was already computed. Works correctly in practice because `IsPointerOverPiece` is called with the already-computed `worldPos` but then recalculates screen position. Minor inconsistency. | Low |
 | 9 | No Android back button handling | Pressing back on Android does nothing. Should show a confirmation or exit. | Feature missing |
 | 10 | `preferredColor` field in ShapePattern is unused | Each ShapePattern has a `preferredColor` field but BlockSpawner ignores it and assigns random colors from `colorPalette[]`. The field exists in the SO data but is dead code. | Low |
-| 11 | Global Light 2D is active but unnecessary | The scene has a Global Light 2D that forces a per-sprite light pass in the 2D Renderer. For a flat puzzle game with no normal maps, this adds GPU overhead with zero visual impact. Can be disabled or removed. | Low |
+| 11 | Global Light 2D removed | Global Light 2D was removed from the scene to eliminate unnecessary per-sprite light passes (no normal maps used). Zero visual impact. | Resolved |
 
 ---
 
@@ -1550,7 +1564,7 @@ BlockPiece SetupPiece receives `cellSize: 0.456f, gap: 0.02f` — must match Gri
 - **Drag handler:** Only 3 active `BlockDragHandler` instances exist at any time. Idle handlers early-return on `IsPointerDown()` check. During drag, `UpdateGhostPosition()` early-exits if hover cell hasn't changed. Ghost color set only on validity state flip — no per-frame `SpriteRenderer.color` sets.
 - **Ghost cells:** Pre-compute colors in `CreateGhostCells()`. Cache last hover position and last validity state. Use separate `ghostRenderers` list to avoid `GetComponent<SpriteRenderer>()` per frame.
 - **Renderer/Camera:** `Physics2DRaycaster` removed from camera. Post-processing disabled (`m_RenderPostProcessing: 0`). URP shadows/HDR disabled. Volume framework set to Via Scripting.
-- **Input:** No EventSystem input module conflicts — `InputSystemUIInputModule` left in place (no runtime cleanup). Game uses `Input.GetMouseButton()` directly in `Update()`.
+- **Input:** No EventSystem input module conflicts — `StandaloneInputModule` on EventSystem (Legacy Input active). Game uses `Input.GetMouseButton()` directly in `Update()`.
 
 ### If Adding Features
 - **Scoring:** Add ScoreManager singleton. Call `AddScore(cellCount)` from `BlockDragHandler.PlaceOnGrid()` (1 point per cell placed), call `AddScore(lineBonus)` from `GridManager.CheckAndClearLines()` (e.g. 1 line = 10, 2 = 30, 3 = 60, 4 = 100). Display via a Canvas Text in a top bar.

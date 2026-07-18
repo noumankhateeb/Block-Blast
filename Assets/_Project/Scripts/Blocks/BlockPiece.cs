@@ -16,7 +16,6 @@ public class BlockPiece : MonoBehaviour
 
         float step = size + spacing;
 
-        // Find bounds for centering
         float minX = float.MaxValue, maxX = float.MinValue;
         float minY = float.MaxValue, maxY = float.MinValue;
         foreach (Vector2Int offset in pattern.cellOffsets)
@@ -31,7 +30,8 @@ public class BlockPiece : MonoBehaviour
 
         float totalWidth = cols * size + (cols - 1) * spacing;
         float totalHeight = rows * size + (rows - 1) * spacing;
-        PivotOffset = new Vector3(-totalWidth / 2f + size / 2f, totalHeight / 2f - size / 2f, 0f);
+        PivotOffset = new Vector3(-totalWidth / 2f + size / 2f,
+                                   totalHeight / 2f - size / 2f, 0f);
 
         foreach (Vector2Int offset in pattern.cellOffsets)
         {
@@ -42,9 +42,14 @@ public class BlockPiece : MonoBehaviour
         }
 
         BoxCollider2D box = GetComponent<BoxCollider2D>();
-        if (box != null)
+        if (box != null && transform.childCount > 0)
         {
-            Destroy(box);
+            Bounds bounds = new Bounds(transform.GetChild(0).localPosition, Vector3.zero);
+            for (int i = 1; i < transform.childCount; i++)
+                bounds.Encapsulate(transform.GetChild(i).localPosition);
+            bounds.Expand(size * 0.5f);
+            box.size = bounds.size;
+            box.offset = bounds.center;
         }
     }
 }
