@@ -11,18 +11,36 @@
 /[Bb]uilds/
 /[Ll]ogs/
 /[Uu]ser[Ss]ettings/
+/[Mm]emoryCaptures/
+/[Rr]ecordings/
 
 # ================================================================================
-# Unity generated visual studio files
+# Unity Package Manager (UPM) Cache & Dependencies
+# ================================================================================
+Packages/PackageCache/
+!Packages/manifest.json
+!Packages/packages-lock.json
+
+# ================================================================================
+# Unity generated visual studio / IDE files
 # ================================================================================
 *.csproj
 *.unityproj
 *.sln
+*.slnx
 *.suo
 *.user
 *.userossc
 *.userprefs
+*.pidb
 *.booproj
+*.svd
+*.pdb
+*.pdb.meta
+*.mdb
+*.mdb.meta
+*.opendb
+*.VC.db
 /.vs/
 
 # ================================================================================
@@ -32,7 +50,7 @@
 *.sln.DotSettings.user
 
 # ================================================================================
-# VS Code (keep for team consistency, but ignore workspace files)
+# VS Code
 # ================================================================================
 .vscode/
 
@@ -45,8 +63,8 @@
 .Spotlight-V100
 .Trashes
 ehthumbs.db
-Thumbs.db
-Desktop.ini
+[Tt]humbs.db
+[Dd]esktop.ini
 
 # ================================================================================
 # Unity specific
@@ -54,11 +72,9 @@ Desktop.ini
 # Asset meta data should only be ignored when selectively
 !/Assets/**/*.meta
 
-# Uncomment this line if you don't want Unity created project folders
-# [Pp]rojectSettings/
-
 # Crash Reports
 /crashlytics/
+crashlytics-build.properties
 
 # Screenshots (not needed in version control)
 Assets/Screenshots/
@@ -74,6 +90,10 @@ Assets/Settings/Scenes.meta
 Assets/Settings/Lit2DSceneTemplate.scenetemplate*
 ProjectSettings/SceneTemplateSettings.json
 
+# Unity Test Runner & Performance Testing artifacts
+Assets/Resources/PerformanceTestRunInfo.json*
+Assets/Resources/PerformanceTestRunSettings.json*
+
 # Gradle build artifacts (Android)
 gradle/
 .gradle/
@@ -81,16 +101,19 @@ local.properties
 *.apk
 *.aab
 
-# iOS
+# iOS / macOS
 *.app
 *.ipa
 *.dSYM.zip
 *.dSYM
 
-# Burst
-**/BurstDebugInformation_DoNotShip/
-**/BackUpThisFolder_ButDontShipItWithYourGame/
+# Burst & IL2CPP debug / backup folders
+**/*BurstDebugInformation_DoNotShip*
+**/*BackUpThisFolder_ButDontShipItWithYourGame*
 
 # Unity Android temp
 .utmp/
 *.so
+
+# Packages export
+*.unitypackage
